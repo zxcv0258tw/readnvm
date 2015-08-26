@@ -39,19 +39,28 @@ def readnvmfile(filename):
 		#print Q[3]
 		tmpoffset = 7
 		for i in range(int(tmp[6])):
-			Q.append(int(tmp[tmpoffset+i*4]))
+			ImId = int(tmp[tmpoffset+i*4])
+			Q.append(ImId)
 			#print Q			
-			siftname = G[Q[-1]][0:30]+'sift'
-			print siftname	
-			Q.append(int(tmp[tmpoffset+1+i*4]))
+			siftname = G[ImId][0:30]+'sift'
+			print siftname
+			feaId = int(tmp[tmpoffset+1+i*4])
+			Q.append(feaId)
 			#print Q			
 			loc, des = ReadSift.ReadSift(siftname)
+			x = double(loc[feaId][0])
+			y = double(loc[feaId][1])
 			#print len(loc)
-			Q.append(des[Q[-1]])
+			Q.append(des[feaId])
 			#print des[Q[-1]]
-			Q.append(tmp[tmpoffset+2+i*4])
-			#print Q
-			Q.append(tmp[tmpoffset+3+i*4])
+			x_nvm = double(tmp[tmpoffset+2+i*4])
+			y_nvm = double(tmp[tmpoffset+3+i*4])
+			Q.append(x_nvm)
+			Q.append(y_nvm)
+			# check 
+			err = np.absolute(x_nvm-x)+np.absolute(y_nvm-y)
+			print err
+			Q.append(err)
 		print Q
 			
 		#Q = np.array(Q)
